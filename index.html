@@ -8,8 +8,9 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 50px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -21,13 +22,29 @@
             border: 1px solid #ccc;
             background-color: #fff;
         }
+        form {
+            margin: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div id="chart"></div>
 
+    <form id="route-form">
+        <label for="origin">Origin Airport Code:</label>
+        <input type="text" id="origin" name="origin" required>
+        <label for="destination">Destination Airport Code:</label>
+        <input type="text" id="destination" name="destination" required>
+        <label for="passengers">Passengers:</label>
+        <input type="number" id="passengers" name="passengers" required>
+        <label for="planes">Planes:</label>
+        <input type="number" id="planes" name="planes" required>
+        <button type="submit">Add Route</button>
+    </form>
+
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
     <script src="airline-network.js"></script>
 
 </body>
