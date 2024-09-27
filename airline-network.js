@@ -136,3 +136,20 @@ form.addEventListener('submit', function(event) {
     form.reset();
 });
 
+// Reset the points
+function genNewPoints(pointcount) {
+    d3.csv("airports.csv").then(function(data) {
+        // Filter the data to only include rows where country == "United States"
+        const filteredData = data.filter(d => d.country == "United States");
+        const randomEntries = getRandomEntries(filteredData, pointcount);
+    
+        // Convert randomEntries to the format of airportCoords
+        newAirportCoords = {};
+        randomEntries.forEach(entry => {
+            newAirportCoords[entry.iata_code] = [parseFloat(entry.longitude), parseFloat(entry.latitude)];
+        });
+        airportCoords = newAirportCoords
+        updateVisualization();
+    });    
+}
+

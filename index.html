@@ -29,6 +29,12 @@
 </head>
 <body>
 
+    <h1>Airline Network Visualization</h1>
+    <div style="display: flex; align-items: center;">
+        Below are <input type="number" id="num-airports" value="5" min="1" style="width: 50px; margin-left: 5px; margin-right: 5px;"> random airports in the United States. 
+        <button onclick="genNewPoints(document.getElementById('num-airports').value)" style="margin-left: 10px;">Generate New Airports</button>
+    </div>
+
     <div id="chart"></div>
 
     <form id="route-form">
