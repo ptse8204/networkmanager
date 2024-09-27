@@ -1,5 +1,5 @@
-// Sample data for airport coordinates
-const airportCoords = {
+// Sample data for airport coordinates (not using...)
+airportCoords = {
     "JFK": [-73.7781, 40.6413],
     "LAX": [-118.4085, 33.9416],
     "ORD": [-87.9073, 41.9742],
@@ -7,8 +7,32 @@ const airportCoords = {
     "DFW": [-97.0404, 32.8998]
 };
 
-const width = 1000, height = 700;
+function getRandomEntries(data, numEntries) {
+    return data
+        .sort(() => 0.5 - Math.random()) // Shuffle the array
+        .slice(0, numEntries);           // Get first numEntries entries
+}
+
+csv_return = d3.csv("airports.csv").then(function(data) {
+    // Filter the data to only include rows where country == "United States"
+    const filteredData = data.filter(d => d.country == "United States");
+    const randomEntries = getRandomEntries(filteredData, 5);
+
+    // Convert randomEntries to the format of airportCoords
+    newAirportCoords = {};
+    randomEntries.forEach(entry => {
+        newAirportCoords[entry.iata_code] = [parseFloat(entry.longitude), parseFloat(entry.latitude)];
+    });
+    airportCoords = newAirportCoords
+    updateVisualization();
+});
+
+// Allow return from csv_return
+//csv_return.then(result => console.log(result));
+
+const width = 975, height = 610;
 const routes = [];
+
 
 // Create SVG container
 const svg = d3.select("#chart")
@@ -17,25 +41,27 @@ const svg = d3.select("#chart")
     .attr("height", height);
 
 // Define map projection
-const projection = d3.geoAlbersUsa()
-    .scale(1300)
-    .translate([width / 2, height / 2]);
+const projection = d3.geoAlbersUsa().scale(1300).translate([487.5, 305])
 
 const path = d3.geoPath();
 
+
 // Load and display the map
-d3.json("https://d3js.org/us-10m.v2.json").then(function(us) {
+us_map = d3.json("https://d3js.org/us-10m.v2.json").then(function(us) {
     svg.append("g")
         //.attr("class", "state")
         .selectAll("path")
         .data(topojson.feature(us, us.objects.states).features)
-        .enter().append("path")
-        .attr("d", path).projection(projection)
+        .enter().append("path")        
         .attr("fill", "#ccc")
-        .attr("stroke", "#333");
-
-    updateVisualization();
+        .attr("stroke", "#333")
+        .attr("d", path);
+        
+        return "Something";
 });
+
+// Allow return from us_map
+//us_map.then(result => console.log(result));
 
 // Function to update the network visualization
 function updateVisualization() {
@@ -108,3 +134,4 @@ form.addEventListener('submit', function(event) {
     // Reset the form
     form.reset();
 });
+
