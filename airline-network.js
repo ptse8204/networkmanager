@@ -57,6 +57,7 @@ us_map = d3.json("https://d3js.org/us-10m.v2.json").then(function(us) {
         .attr("stroke", "#333")
         .attr("d", path);
         
+        updateVisualization();
         return "Something";
 });
 
